@@ -17,6 +17,7 @@ public class HomePage extends BasePage {
     private final String homePageUrl= CommonStrings.HOME_PAGE_URL;
     private final By detaljnaPretragaLokator =By.name("isDetailed");
     private final By searchFormLocator = By.xpath("//div[contains(@class,\"search-holder-box\")]");
+    private final By postaviOglasLocator=By.xpath("//a[contains(@class,\"top-menu-submit\")]");
     public HomePage(WebDriver driver){
         super(driver);
     }
@@ -30,8 +31,11 @@ public class HomePage extends BasePage {
         return waitForUrlChange(homePageUrl,Time.TIME_SHORTER);
     }
     public DetailSearchPage clickDetaljnaPretraga(){
-        WebElement element= driver.findElement(detaljnaPretragaLokator);
-        element.click();
+        clickOnWebElement(detaljnaPretragaLokator);
         return new DetailSearchPage(driver);
+    }
+    public LoginPage clickPostaviOglas(){
+        clickButton(postaviOglasLocator);
+        return new LoginPage(driver);
     }
 }

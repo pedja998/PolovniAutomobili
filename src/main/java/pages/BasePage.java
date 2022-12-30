@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Random;
 
 public abstract class BasePage {
     WebDriver driver;
@@ -39,7 +41,7 @@ public abstract class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
-    protected WebElement getWebElement(By lokator){
+    public WebElement getWebElement(By lokator){
         waitForWebElementToBeVisible(lokator,Time.TIME_SHORTER);
         WebElement element = driver.findElement(lokator);
         return element;
@@ -56,10 +58,44 @@ public abstract class BasePage {
         clearTextFromWebElement(element);
         typeTextToWebElement(element, text);
     }
+    protected void clickOnWebElement(By lokator){getWebElement(lokator).click();}
     protected void clickOnWebElement(WebElement element) {
         element.click();
     }
     protected void clickButton(By locator) {
         clickOnWebElement(getWebElement(locator));
+    }
+    protected void selectFromList (By lokatorListe, By lokatorHoldera, String name){
+        waitForWebElementToBeClickable(lokatorHoldera,Time.TIME_SHORTER);
+        WebElement element = driver.findElement(lokatorListe);
+        clickButton(lokatorHoldera);
+        List<WebElement> options = element.findElements(By.tagName("li"));
+        for (WebElement option : options){
+            if (option.getText().equals(name)){
+                option.click();
+            }
+        }
+    }
+    protected void selectFromList2 (By lokatorListe, String name){
+        WebElement element = driver.findElement(lokatorListe);
+        List<WebElement> options = element.findElements(By.tagName("li"));
+        options.get(0).click();
+    }
+    //Public jer cu koristiti metodu u testovima za assert
+    public String getPlaceholderText(By locator){
+        String dobijeni=getWebElement(locator).getText();
+        return dobijeni;
+    }
+    public void createListOfElementsAndClickAll(By locator){
+        List<WebElement> options = driver.findElements(locator);
+        for (WebElement option : options){
+            option.click();
+        }
+    }
+    protected String randomSixNumbers(){
+        Random rand = new Random();
+        int broj = rand.nextInt(999999);
+        String dodatak=String.format("%06d",broj);
+        return dodatak;
     }
 }

@@ -5,32 +5,30 @@ import data.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-
 import java.util.List;
 
 public class DetailSearchPage extends BasePage{
     private final String DetailPageUrl= CommonStrings.DETAIL_SEARCH_URL;
-    private final By buttonPollLocator=By.id("btn_poll_no");
-    private final By markaSelectLocator= By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[1]/div/div/ul");
-    private final By markaPlaceHolder = By.className("placeholder");
-    private final By modelPlaceHoleder=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[2]/div/p/span");
-    private final By spisakMarkiLokator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[1]/div/div/ul/li");
-    private final By modelSelectLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[2]/div/div/ul");
-    private final By modelSpisakLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[2]/div/div/ul/li");
-    private final By bodyPlaceHolder=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[7]/div/div[1]/div/p/span");
-    private final By bodySelectLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[7]/div/div[1]/div/div/ul");
-    private final By karoserijaSpisakLokator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[7]/div/div[1]/div/div/ul/li");
-    private final By fuelPlaceHolder=By.xpath("//*[contains(text(),\"Vrsta goriva\")]");
-    private final By fuelPlaceSelector=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[8]/div/div/ul");
-    private final By fuelItemsLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[8]/div/div/ul/li");
-    private final By regionPlaceHolder=By.xpath("//*[contains(text(),\"Region\")]");
-    private final By regionSelectLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[11]/div/div/ul");
-    private final By regionItemsVelikeRegijeLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[11]/div/div/ul/li[1]/ul/li[1]");
-    private final By numberOfDoorsPlaceHolder=By.xpath("//*[contains(text(),\"Broj vrata\")]");
-    private final By doorsSelectLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[12]/div/div/ul");
-    private final By doorsItemsLocator=By.xpath("//*[@id=\"search-form\"]/div/form/div[1]/div[1]/div/div[12]/div/div/ul/li");
+    public final By buttonPollLocator=By.id("btn_poll_no");
+    private final By markaSelectLocator= By.xpath("//div[@class=\"SumoSelect sumo_brand\"]//child::ul");
+    public final By markaPlaceHolder = By.xpath("//div[@class=\"SumoSelect sumo_brand\"]//child::span[1]");
+    public final By modelPlaceHoleder=By.xpath("//div[@class=\"SumoSelect sumo_model\"]//child::span[1]");
+    private final By modelSelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_model\"]//child::ul");
+    public final By bodyPlaceHolder=By.xpath("//div[@class=\"SumoSelect sumo_chassis\"]//child::span[1]");
+    private final By bodySelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_chassis\"]//child::ul");
+
+    public final By fuelPlaceHolder=By.xpath("//div[@class=\"SumoSelect sumo_fuel\"]//child::span[1]");
+    private final By fuelPlaceSelector=By.xpath("//div[@class=\"SumoSelect sumo_fuel\"]//child::ul");
+
+    public final By regionPlaceHolder=By.xpath("//div[@class=\"SumoSelect sumo_region\"]//child::span[1]");
+    private final By regionSelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_region\"]//child::ul");
+
+    public final By numberOfDoorsPlaceHolder=By.xpath("//div[@class=\"SumoSelect sumo_door_num\"]//child::span[1]");
+    private final By doorsSelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_door_num\"]//child::ul");
+    public final By yearFromPlaceholder=By.xpath("//div[@class=\"SumoSelect sumo_year_from\"]//child::span[1]");
+    private final By yearFromSelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_year_from\"]//child::ul");
+    public final By yearToPlaceholder=By.xpath("//div[@class=\"SumoSelect sumo_year_to\"]//child::span[1]");
+    private final By yearToSelectLocator=By.xpath("//div[@class=\"SumoSelect sumo_year_to\"]//child::ul");
     private final By priceFromLocator=By.id("price_from");
     private final By priceToLocator=By.id("price_to");
     private final By searchLocator=By.id("submit_1");
@@ -44,73 +42,51 @@ public class DetailSearchPage extends BasePage{
         clickButton(buttonPollLocator);
         return this;
     }
-    private List<WebElement> createListOfItems(By lokatorListe, By lokatorHoldera, By lokatorElemenata){
-        WebElement element = driver.findElement(lokatorListe);
-        clickButton(lokatorHoldera);
-        List<WebElement> options = element.findElements(lokatorElemenata);
-        return options;
-    }
+
     public DetailSearchPage selectBrand(String nameOfBrand){
-        List<WebElement> options = createListOfItems(markaSelectLocator,markaPlaceHolder, spisakMarkiLokator);
-        for (WebElement option : options){
-            if (option.getText().equals(nameOfBrand)){
-                option.click();
-            }
-        }
+        selectFromList(markaSelectLocator,markaPlaceHolder,nameOfBrand);
         return this;
     }
     public DetailSearchPage selectModel(String model){
-        waitForWebElementToBeClickable(modelPlaceHoleder,Time.TIME_SHORT);
-        List<WebElement> options = createListOfItems(modelSelectLocator,modelPlaceHoleder, modelSpisakLocator);
-        for (WebElement option : options){
-            if (option.getText().equals(model)){
-                option.click();
-            }
-        }
+        selectFromList(modelSelectLocator,modelPlaceHoleder,model);
         return this;
     }
+
+    //Ovo sam morao ovako jer ne mogu da uhvatim samo tekst elemenata liste
     public DetailSearchPage selectBodyType(int ime){
         waitForWebElementToBeVisible(bodyPlaceHolder,Time.TIME_SHORTER);
-        List<WebElement> options = createListOfItems(bodySelectLocator,bodyPlaceHolder,karoserijaSpisakLokator);
+        WebElement element = driver.findElement(bodySelectLocator);
+        clickButton(bodyPlaceHolder);
+        List<WebElement> options = element.findElements(By.tagName("li"));
         options.get(ime).click();
         return this;
     }
     public DetailSearchPage selectFuelType(String tip){
-        waitForWebElementToBeVisible(fuelPlaceHolder,Time.TIME_SHORTER);
-        List<WebElement> options = createListOfItems(fuelPlaceSelector,fuelPlaceHolder,fuelItemsLocator);
-        for (WebElement option : options){
-            if (option.getText().equals(tip)){
-                option.click();
-            }
-        }
+        selectFromList(fuelPlaceSelector,fuelPlaceHolder,tip);
         return this;
     }
     public DetailSearchPage selectRegion(String naziv){
-        waitForWebElementToBeVisible(regionPlaceHolder,Time.TIME_SHORTER);
-        List<WebElement> options = createListOfItems(regionSelectLocator,regionPlaceHolder,regionItemsVelikeRegijeLocator);
-        for (WebElement option : options){
-            if (option.getText().equals(naziv)){
-                option.click();
-            }
-        }
+        selectFromList(regionSelectLocator,regionPlaceHolder,naziv);
         return this;
     }
     public DetailSearchPage selectDoors(String opis){
-        waitForWebElementToBeVisible(numberOfDoorsPlaceHolder,Time.TIME_SHORTER);
-        List<WebElement> options = createListOfItems(doorsSelectLocator,numberOfDoorsPlaceHolder,doorsItemsLocator);
-        for (WebElement option : options){
-            if (option.getText().equals(opis)){
-                option.click();
-            }
-        }
+        selectFromList(doorsSelectLocator,numberOfDoorsPlaceHolder,opis);
         return this;
     }
-    public DetailSearchPage insertPrice(int niza, int visa){
-        getWebElement(priceFromLocator).click();
-        typeTextToWebElement(getWebElement(priceFromLocator),String.valueOf(5000));
-        getWebElement(priceToLocator).click();
-        typeTextToWebElement(getWebElement(priceToLocator),String.valueOf(8000));
+    public DetailSearchPage insertPrice(String niza, String visa){
+        clickOnWebElement(priceFromLocator);
+        clearAndTypeTextToWebElement(getWebElement(priceFromLocator),niza);
+        clickOnWebElement(priceToLocator);
+        clearAndTypeTextToWebElement(getWebElement(priceToLocator),visa);
         return this;
     }
-
+    public DetailSearchPage setYears(String prva, String druga){
+        selectFromList(yearFromSelectLocator,yearFromPlaceholder,prva);
+        selectFromList(yearToSelectLocator,yearToPlaceholder,druga);
+        return this;
+    }
+    public SpecificSearchPage subbmitSearch(){
+        clickButton(searchLocator);
+        return new SpecificSearchPage(driver);
+    }
 }
