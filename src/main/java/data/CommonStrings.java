@@ -12,6 +12,7 @@ public class CommonStrings {
     public static final String PROTON_HOME_PAGE_URL="https://mail.proton.me/u/1/inbox";
     public static final String ACTIVATION_SUCCESS_PAGE_URL="https://www.polovniautomobili.com/registracija-uspesna";
     public static final String POLOVNI_SETTINGS_PAGE_URL="https://www.polovniautomobili.com/korisnicki-profil/podesavanja";
+    public static final String PRIJAVA_PAGE_URL="https://www.polovniautomobili.com/login";
     public static final int LIMUZINA=0;
     public static final int HEČBEK=1;
     public static final int KARAVAN=2;

@@ -17,8 +17,11 @@ public class ProtonHomePage extends BasePage {
     private final By unreadMailBtnLocator=By.xpath("//button[contains(text(),\"Unread\")]");
     private final By activationLinkLocator=By.xpath("//a[contains(@href,\"aktivacija\")]");
     private final By aktivacioniMailLocator=By.xpath("//div[contains(@class,\"unread\")]");
+    private final By polovniMailLocator=By.xpath("//div[contains(@data-testid,\"Aktivirajte\")]");
     private final By dialogFormLocator=By.xpath("//div[@class=\"modal-two\"]");
     public final By dialogOpenNewTabYesBtn=By.xpath("//div[@class=\"modal-two\"]//child::button[2]");
+    private final By allMailBtnLocator=By.xpath("//button[contains(text(),\"All\")]");
+    private final By trashBtnLocator=By.xpath("//div[contains(@class,\"flex toolbar-inner\")][1]//child::button[contains(@data-testid,\"toolbar:movetotrash\")]");
     public ProtonHomePage(WebDriver driver){
         super(driver);
     }
@@ -47,5 +50,10 @@ public class ProtonHomePage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(dialogFormLocator));
         clickButton(dialogOpenNewTabYesBtn);
         return new ActivationSuccessfulPage(driver);
+    }
+    public ProtonHomePage deleteActivationMail(){
+        clickButton(allMailBtnLocator);
+        clickButton(trashBtnLocator);
+        return this;
     }
 }

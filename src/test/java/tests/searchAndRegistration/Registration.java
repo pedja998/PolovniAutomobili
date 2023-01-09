@@ -68,6 +68,16 @@ public class Registration extends BaseTest {
 
         homePage= psp.clickLogOut();
         Assert.assertTrue(homePage.verifyHomePage(),"NIJE DOBAR URL");
+
+        PrijavaPage prijavaPage=homePage.clickPrijaviSe();
+        Assert.assertTrue(prijavaPage.verifyPrijavaPage(),"NIJE DOBAR URL");
+
+        homePage=prijavaPage.proceedToProfilePage(email,password);
+        Assert.assertTrue(homePage.verifyHomePage(),"NIJE DOBAR URL");
+        Assert.assertEquals(email,homePage.getEmail());
+
+        protonHomePage=homePage.closeTabsAndReturnToMail();
+        protonHomePage.deleteActivationMail();
     }
 
     @AfterMethod
